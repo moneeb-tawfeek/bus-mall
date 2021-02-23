@@ -9,13 +9,17 @@ let middleImgI;
 let rightImgI;
 let userAttemptsCounter = 0;
 let maxAttempt = 26;
+let mallname = [];
+let mallvote = [];
 
 function MallImg(name, source) {
     this.name = name;
     this.source = source;
     this.votes = 0;
     MallImg.allImg.push(this);
+    mallname.push(name)
 }
+console.log(mallname);
 // console.log(this);
 
 MallImg.allImg = [];
@@ -47,6 +51,8 @@ function makeRandomI() {
     return Math.floor(Math.random() * MallImg.allImg.length)
 }
 // console.log(Math.floor(Math.random() * MallImg.allImg.length));
+
+
 
 function renderThreeImg() {
     leftImgI = makeRandomI();
@@ -112,6 +118,12 @@ function handleUserClick(event) {
         left.removeEventListener('click', handleUserClick);
         middle.removeEventListener('click', handleUserClick);
         right.removeEventListener('click', handleUserClick);
+
+        for (let i = 0; i < MallImg.allImg.length; i++) {
+            mallvote.push(MallImg.allImg[i].votes)
+
+        }
+        viwchart();
     }
 
 
@@ -125,7 +137,26 @@ console.log(leftImgI);
 console.log(middleImgI);
 console.log(rightImgI);
 
-// makeRandomI();
 
-// handleUserClick();
 
+function viwchart() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: mallname,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: mallvote
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+}
